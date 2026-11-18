@@ -1,0 +1,3 @@
+# BJNF Language Pack Manifest V1
+# Format: code<TAB>version<TAB>sha256<TAB>word_count<TAB>byte_count
+# No downloadable packs are published yet. Add only after BJNF legal and native-language QA approval.
