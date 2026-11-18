@@ -1,9 +1,13 @@
-# Packs
+# Runtime language packs
 
-Store approved language packs in:
+Current BJNF V1.2.6 client reads:
 
-`<language-code>/<version>/<pack-file>`
+- `packs.txt` in this directory — UTF-8 tab-separated pack manifest
+- `<language-code>.txt` in this same directory — UTF-8 words, one per line
 
-Example: `te/1.0.0/te-dictionary.db`
+The current app does not parse JSON manifests or nested versioned paths. The version integer is carried in each manifest row. Keep previous released files separately under `archive/<code>/<version>/` for traceability. Do not publish an empty placeholder wordlist.
 
-Use stable language codes and immutable version directories. Never replace a published version in place.
+Manifest row format:
+`<code><TAB><version><TAB><sha256><TAB><word-count><TAB><byte-count>`
+
+Only list packs with complete BJNF legal clearance, provenance, native-speaker review and QA approval.
