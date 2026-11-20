@@ -1,13 +1,7 @@
 # Runtime language packs
 
-Current BJNF V1.2.6 client reads:
+The BJNF app (V1.3.1 and later) reads `../manifest.json` and downloads `packs/<code>/<version>/<code>.txt.gz`
+(gzip, UTF-8, one word per line, most common first). See the main README for the full contract.
 
-- `packs.txt` in this directory — UTF-8 tab-separated pack manifest
-- `<language-code>.txt` in this same directory — UTF-8 words, one per line
-
-The current app does not parse JSON manifests or nested versioned paths. The version integer is carried in each manifest row. Keep previous released files separately under `archive/<code>/<version>/` for traceability. Do not publish an empty placeholder wordlist.
-
-Manifest row format:
-`<code><TAB><version><TAB><sha256><TAB><word-count><TAB><byte-count>`
-
-Only list packs with complete BJNF legal clearance, provenance, native-speaker review and QA approval.
+`packs.txt` in this folder is the old V1.2.6 manifest format, kept only for old test builds.
+Only packs with verified licence records and native-speaker review are merged to `main`.

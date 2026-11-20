@@ -1,6 +1,29 @@
 {
-  "schema_version": 1,
+  "schema": 1,
   "repository": "BJNFDIGITAL2026/BJNF-dictionary-packs",
-  "updated_at": null,
-  "packs": []
+  "updated_at": "2026-11-20",
+  "packs": [
+    {
+      "code": "hi",
+      "version": 1,
+      "path": "packs/hi/1/hi.txt.gz",
+      "sha256": "50c5b9d4b8177f7036bacffe99264ac3c195040dfb03f500d5b27b2cf60937af",
+      "bytes": 513531,
+      "words": 99485,
+      "license_file": "licenses/hi/SOURCES_AND_LICENCES.txt",
+      "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words only; each word cross-checked (see licence file)",
+      "licence_review": "source licence verified CC0; every word auto-checked and borderline words hand-reviewed; native sign-off sheet: review/hi/expert_review.tsv"
+    },
+    {
+      "code": "te",
+      "version": 1,
+      "path": "packs/te/1/te.txt.gz",
+      "sha256": "ab3fcbca3b206c3ed25aee5b9a6d0bb822d1cf8b68bebd767c78abf0f9716a2a",
+      "bytes": 591899,
+      "words": 100000,
+      "license_file": "licenses/te/SOURCES_AND_LICENCES.txt",
+      "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words only; each word cross-checked (see licence file)",
+      "licence_review": "source licence verified CC0; every word auto-checked and borderline words hand-reviewed; native sign-off sheet: review/te/expert_review.tsv"
+    }
+  ]
 }

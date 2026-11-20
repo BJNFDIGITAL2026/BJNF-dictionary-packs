@@ -1,0 +1,58 @@
+name: Collect word data for verification (IndicCorp counts, Wikipedia check, SCOWL)
+
+# Downloads the raw material that tools/verify_words.py checks every word against, and commits it to work/
+# on this branch. work/ is never published to main (squash-merge after removing it).
+on:
+  workflow_dispatch:
+  push:
+    branches: ["build/**"]
+    paths: ["tools/build_corpus_pack.py", "tools/wiki_counts.py", ".github/workflows/collect-word-data.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: SCOWL English word list (wamerican-large) and its licence
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq wamerican-large
+          mkdir -p work/en
+          F=$(dpkg -L wamerican-large | grep '^/usr/share/dict/' | grep -v '\.' | head -1 || true)
+          [ -n "$F" ] || F=$(dpkg -L wamerican-large | grep '^/usr/share/dict/american-english' | head -1)
+          echo "word list: $F"
+          cp "$F" work/en/scowl_words.txt
+          cp /usr/share/doc/wamerican-large/copyright work/en/SCOWL_COPYRIGHT.txt
+          dpkg -s wamerican-large | grep -E '^(Package|Version|Source|Homepage):' > work/en/scowl_package.txt
+          wc -l work/en/scowl_words.txt; cat work/en/scowl_package.txt
+      - name: IndicCorp v2 word counts (te, hi, en)
+        run: |
+          set -euo pipefail
+          for code in te hi en; do
+            python tools/build_corpus_pack.py --counts-only --lang "$code" --max-gb 5 --min-count 5
+          done
+      - name: Wikipedia cross-check counts (te, hi)
+        run: python tools/wiki_counts.py --lang te hi
+      - name: Commit work data to this branch
+        run: |
+          set -euo pipefail
+          ls -lh work/*
+          git config user.name "bjnf-pack-builder"
+          git config user.email "actions@users.noreply.github.com"
+          git add work
+          git commit -m "Word verification data: IndicCorp counts, Wikipedia check counts, SCOWL list (work/, not published)"
+          git push

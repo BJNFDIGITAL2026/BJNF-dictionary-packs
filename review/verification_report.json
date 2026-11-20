@@ -1,0 +1,48 @@
+{
+  "te": {
+    "candidates": 797060,
+    "passed_all_checks": 220387,
+    "published": 100000,
+    "rejected_by_reason": {
+      "likely_misspelling_of": 879,
+      "misspelling_hand_reviewed": 161,
+      "not_confirmed_by_second_source": 82462,
+      "ra_ottu_order": 405,
+      "invalid_letter_sequence": 1048,
+      "offensive": 77
+    },
+    "app_builtin": {
+      "kept": 3156,
+      "rejected": 118,
+      "kept_needs_native_signoff": 217
+    },
+    "gz_bytes": 591899
+  },
+  "hi": {
+    "candidates": 311100,
+    "passed_all_checks": 99485,
+    "published": 99485,
+    "rejected_by_reason": {
+      "likely_misspelling_of": 2243,
+      "invalid_letter_sequence": 6144,
+      "legacy_font_junk": 352,
+      "offensive": 36,
+      "misspelling_hand_reviewed": 650,
+      "not_confirmed_by_second_source": 25766,
+      "ra_ottu_order": 339
+    },
+    "app_builtin": {
+      "kept": 2370,
+      "rejected": 16,
+      "kept_needs_native_signoff": 310
+    },
+    "gz_bytes": 513531
+  },
+  "en_builtin": {
+    "scowl_entries": 170421,
+    "kept": 133376,
+    "hand_picked_kept": 2372,
+    "rejected": 136,
+    "ranked_by_indiccorp": 101410
+  }
+}
