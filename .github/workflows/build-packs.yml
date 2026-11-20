@@ -12,9 +12,6 @@ on:
       version:
         description: "Pack version (raise it when a list changes)"
         default: "1"
-  push:
-    branches: ["build/**"]
-    paths: ["tools/**", ".github/workflows/build-packs.yml"]
 
 permissions:
   contents: write

@@ -318,6 +318,22 @@ def build(code, top, version, max_gb, min_count, token):
     log(f"  {code}: {len(ranked):,} words, {len(blob)/1024:.0f} KB gz, lowest kept count {counts[ranked[-1]]}")
 
 
+def dump_counts(code, max_gb, min_count, token):
+    """Counts-only mode: writes work/<code>/indiccorp_counts.tsv.gz (word TAB count, every clean word seen at least
+    min_count times) and work/<code>/indiccorp_stats.json. tools/verify_words.py then checks every word and builds the pack."""
+    log(f"== counts {code} ({LANGS[code]['name']})")
+    sources, prov = resolve_sources(code, token)
+    counts, stats = count_words(code, sources, token, int(max_gb * 1e9))
+    rows = [(w, c) for w, c in sorted(counts.items(), key=lambda x: (-x[1], x[0])) if c >= min_count and good_word(w)]
+    d = ROOT / "work" / code
+    d.mkdir(parents=True, exist_ok=True)
+    data = "".join(f"{w}\t{c}\n" for w, c in rows).encode("utf-8")
+    (d / "indiccorp_counts.tsv.gz").write_bytes(gzip.compress(data, compresslevel=9, mtime=0))
+    stats.update({"code": code, "distinct_kept": len(rows), "min_count": min_count, "provenance": prov})
+    (d / "indiccorp_stats.json").write_text(json.dumps(stats, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    log(f"  {code}: {len(rows):,} words with count >= {min_count}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--lang", nargs="*", default=[])
@@ -327,13 +343,17 @@ def main():
     ap.add_argument("--max-gb", type=float, default=5.0, help="corpus bytes to read per language")
     ap.add_argument("--min-count", type=int, default=20)
     ap.add_argument("--finalize", action="store_true")
+    ap.add_argument("--counts-only", action="store_true", help="write work/<code>/ counts for tools/verify_words.py")
     a = ap.parse_args()
     token = os.environ.get("HF_TOKEN") or None
     for code in a.lang:
         if code not in LANGS:
             sys.exit(f"unknown language {code}")
-        build(code, a.top_en if code == "en" else a.top, a.version, a.max_gb, a.min_count, token)
-    if a.finalize or a.lang:
+        if a.counts_only:
+            dump_counts(code, a.max_gb, a.min_count, token)
+        else:
+            build(code, a.top_en if code == "en" else a.top, a.version, a.max_gb, a.min_count, token)
+    if a.finalize or (a.lang and not a.counts_only):
         finalize()
 
 
