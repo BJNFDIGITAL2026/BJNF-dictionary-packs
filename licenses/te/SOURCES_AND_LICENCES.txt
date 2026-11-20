@@ -37,7 +37,8 @@ VERIFICATION (tools/verify_words.py) - every word passed all of these checks
      no Wikipedia text or counts are published.
   6. not a likely misspelling: a form differing by one vowel length (Hindi: or a missing anusvara)
      is 20x more common in BOTH sources; expert-checked exceptions in tools/allowlist/te.txt
-  Candidates: 797,060  Passed: 220,548  Published: 100,000
+  7. not on tools/rejectlist/te.txt (one missing/extra letter, found by hand review)
+  Candidates: 797,060  Passed: 220,387  Published: 100,000
   Rejected words and reasons: review/te/rejected.tsv.gz
 
 ATTRIBUTION (courtesy - not required by CC0)

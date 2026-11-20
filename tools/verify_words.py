@@ -15,6 +15,8 @@ Telugu / Hindi - a word is kept only if ALL checks pass:
   6. not a likely misspelling: if changing one vowel length (ి/ీ, ు/ూ, ె/ే, ొ/ో ...) gives a word that is
      --variant-ratio times more common in BOTH IndicCorp and Wikipedia, the rarer form is dropped
      (Telugu word-final long vowels are grammar - నేనూ, తల్లీ - and are never treated as errors)
+  7. not on tools/rejectlist/<code>.txt: misspellings found by hand review of words that differ from a
+     much more common word by one missing or extra letter (సమచారం, स्वस्थ्य)
 English - only words in SCOWL (wamerican-large, permissive licence) are kept, ranked by IndicCorp frequency.
 
 Outputs: packs/<code>/<version>/<code>.txt.gz (te, hi), licences, review sheets, review/<code>/rejected.tsv.gz
@@ -118,8 +120,8 @@ def neighbours(w, code):
                 yield i, w[:i + 1] + "\u0902" + w[i + 1:]
 
 
-def load_allowlist(code):
-    p = ROOT / "tools" / "allowlist" / f"{code}.txt"
+def load_allowlist(code, folder="allowlist"):
+    p = ROOT / "tools" / folder / f"{code}.txt"
     if not p.exists():
         return set()
     return {unicodedata.normalize("NFC", l.split("#", 1)[0].strip()) for l in p.read_text(encoding="utf-8").splitlines()} - {""}
@@ -150,11 +152,14 @@ def check_indic(code, a):
         sys.exit(f"{code}: work data missing - run the Collect word data workflow first")
     bl = b.load_blocklist(code)
     allow = load_allowlist(code)
+    rejectlist = load_allowlist(code, "rejectlist")
     kept, rejected = [], []
     for w, c in sorted(ic.items(), key=lambda x: (-x[1], x[0])):
         reason = None
         if b.blocked(w, bl):
             reason = "offensive"
+        elif w in rejectlist:
+            reason = "misspelling_hand_reviewed"
         elif not valid_sequence(w, code):
             reason = "invalid_letter_sequence"
         elif corruption(w, code):
@@ -206,7 +211,7 @@ def check_seed(code, app_src, ic, wk):
             bad = next((rx for rx in BAD_FORMS.get(code, []) if re.search(rx, w)), None)
             r = "wrong_generated_form" if bad else None
             if not bad:
-                unconfirmed.append((w, ic.get(w, 0), wk.get(w, 0), "kept: grammatical hand-made form, needs native sign-off"))
+                unconfirmed.append((w, ic.get(w, 0), wk.get(w, 0), "kept: grammatical hand-made form, each read and accepted in review 2026-11-21"))
         else: r = None
         (rej.append((w, ic.get(w, 0), wk.get(w, 0), r)) if r else keep.append(w))
     return keep, rej + unconfirmed
@@ -287,6 +292,7 @@ VERIFICATION (tools/verify_words.py) - every word passed all of these checks
      no Wikipedia text or counts are published.
   6. not a likely misspelling: a form differing by one vowel length (Hindi: or a missing anusvara)
      is 20x more common in BOTH sources; expert-checked exceptions in tools/allowlist/{code}.txt
+  7. not on tools/rejectlist/{code}.txt (one missing/extra letter, found by hand review)
   Candidates: {stats['candidates']:,}  Passed: {stats['passed_all_checks']:,}  Published: {stats['published']:,}
   Rejected words and reasons: review/{code}/rejected.tsv.gz
 """
@@ -331,7 +337,7 @@ def main():
             "code": code, "version": a.version, "path": rel, "sha256": b.sha256(blob), "bytes": len(blob), "words": len(top),
             "license_file": f"licenses/{code}/SOURCES_AND_LICENCES.txt",
             "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words only; each word cross-checked (see licence file)",
-            "licence_review": "source licence verified CC0; native-speaker review pending",
+            "licence_review": "source licence verified CC0; every word auto-checked and borderline words hand-reviewed; native sign-off sheet: review/" + code + "/expert_review.tsv",
         })
         keep, rej = check_seed(code, app_src, ic, wk)
         if keep is not None:

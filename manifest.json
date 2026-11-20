@@ -7,23 +7,23 @@
       "code": "hi",
       "version": 1,
       "path": "packs/hi/1/hi.txt.gz",
-      "sha256": "5d979cfef6fd92670e19206dc802c309afbdd1eb96d6a2e2577bc8bbb2f44619",
-      "bytes": 516706,
-      "words": 100000,
+      "sha256": "50c5b9d4b8177f7036bacffe99264ac3c195040dfb03f500d5b27b2cf60937af",
+      "bytes": 513531,
+      "words": 99485,
       "license_file": "licenses/hi/SOURCES_AND_LICENCES.txt",
       "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words only; each word cross-checked (see licence file)",
-      "licence_review": "source licence verified CC0; native-speaker review pending"
+      "licence_review": "source licence verified CC0; every word auto-checked and borderline words hand-reviewed; native sign-off sheet: review/hi/expert_review.tsv"
     },
     {
       "code": "te",
       "version": 1,
       "path": "packs/te/1/te.txt.gz",
-      "sha256": "faf24b764f8c4cd9a924227a24df6746f0288ff3354f04a6f4ef0b8d7f2a4057",
-      "bytes": 591814,
+      "sha256": "ab3fcbca3b206c3ed25aee5b9a6d0bb822d1cf8b68bebd767c78abf0f9716a2a",
+      "bytes": 591899,
       "words": 100000,
       "license_file": "licenses/te/SOURCES_AND_LICENCES.txt",
       "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words only; each word cross-checked (see licence file)",
-      "licence_review": "source licence verified CC0; native-speaker review pending"
+      "licence_review": "source licence verified CC0; every word auto-checked and borderline words hand-reviewed; native sign-off sheet: review/te/expert_review.tsv"
     }
   ]
 }

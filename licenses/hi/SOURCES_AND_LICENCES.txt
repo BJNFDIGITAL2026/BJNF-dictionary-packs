@@ -26,7 +26,7 @@ WHAT BJNF TOOK AND WHAT IT CHANGED
   * Unicode NFC normalisation; only words written fully in the Hindi script were kept
     (no digits, no punctuation, no mixed scripts); stray zero-width joiners removed; length 1-40;
     obvious repeated-letter noise removed; offensive words removed (tools/blocklist/hi.txt).
-  * Kept words seen at least 20 times; ranked most frequent first; the top 100,000 words published.
+  * Kept words seen at least 20 times; ranked most frequent first; the top 99,485 words published.
   * English words were lower-cased.
 
 VERIFICATION (tools/verify_words.py) - every word passed all of these checks
@@ -39,7 +39,8 @@ VERIFICATION (tools/verify_words.py) - every word passed all of these checks
      no Wikipedia text or counts are published.
   6. not a likely misspelling: a form differing by one vowel length (Hindi: or a missing anusvara)
      is 20x more common in BOTH sources; expert-checked exceptions in tools/allowlist/hi.txt
-  Candidates: 311,100  Passed: 100,135  Published: 100,000
+  7. not on tools/rejectlist/hi.txt (one missing/extra letter, found by hand review)
+  Candidates: 311,100  Passed: 99,485  Published: 99,485
   Rejected words and reasons: review/hi/rejected.tsv.gz
 
 ATTRIBUTION (courtesy - not required by CC0)
