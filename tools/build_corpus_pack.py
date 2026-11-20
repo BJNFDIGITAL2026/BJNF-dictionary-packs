@@ -31,9 +31,9 @@ OBJECTSTORE = "https://objectstore.e2enetworks.net/ai4b-public-nlu-nlg/indic-cor
 
 LANGS = {
     # Telugu block without digits (0C66-0C6F) and fraction signs (0C78-0C7F), plus ZWNJ/ZWJ.
-    "te": {"name": "Telugu", "chars": "ఀ-౥౰-౷‌‍"},
+    "te": {"name": "Telugu", "chars": "\u0C00-\u0C65\u0C70-\u0C77\u200C\u200D", "virama": "\u0C4D"},
     # Devanagari without danda (0964-0965), digits (0966-096F) and abbreviation sign (0970), plus ZWNJ/ZWJ.
-    "hi": {"name": "Hindi", "chars": "ऀ-ॣॱ-ॿ‌‍"},
+    "hi": {"name": "Hindi", "chars": "\u0900-\u0963\u0971-\u097F\u200C\u200D", "virama": "\u094D"},
     "en": {"name": "English", "chars": None},
 }
 EN_TOKEN = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)?")
@@ -102,13 +102,52 @@ def make_tokenizer(code):
                 yield w
         return tok
     rx = re.compile(f"[{LANGS[code]['chars']}]+")
+    virama = LANGS[code]["virama"]
 
     def tok(line):
         for m in rx.findall(line):
-            w = m.strip("‌‍")
+            w = clean_joiners(m, virama, code)
             if w and unicodedata.category(w[0]) == "Lo":
                 yield w
     return tok
+
+
+def clean_joiners(w, virama, code):
+    """News sites often put ZWNJ/ZWJ inside words by mistake (e.g. ma<ZWNJ>rovaipu). In Telugu a ZWNJ is only
+    meaningful right after a virama (lak<virama><ZWNJ>daun), so all others are removed and the counts merge.
+    Hindi typing never needs them, so they are always removed there."""
+    if code == "te":
+        out = []
+        for i, ch in enumerate(w):
+            if ch == "\u200D" or (ch == "\u200C" and (i == 0 or w[i - 1] != virama)):
+                continue
+            out.append(ch)
+        w = "".join(out)
+    else:
+        w = w.replace("\u200C", "").replace("\u200D", "")
+    return w.strip("\u200C\u200D")
+
+
+def load_blocklist(code):
+    """tools/blocklist/<code>.txt: one entry per line. 'word' blocks that exact word, 'word*' blocks every word
+    starting with it. Offensive words must never be offered as suggestions. Native reviewers extend this list."""
+    exact, prefixes = set(), []
+    p = ROOT / "tools" / "blocklist" / f"{code}.txt"
+    if p.exists():
+        for line in p.read_text(encoding="utf-8").splitlines():
+            line = unicodedata.normalize("NFC", line.split("#", 1)[0].strip())
+            if not line:
+                continue
+            if line.endswith("*"):
+                prefixes.append(line[:-1])
+            else:
+                exact.add(line)
+    return exact, tuple(prefixes)
+
+
+def blocked(w, bl):
+    exact, prefixes = bl
+    return w in exact or bool(prefixes and w.startswith(prefixes))
 
 
 def good_word(w):
@@ -174,7 +213,7 @@ LICENCE
   The dataset card states: all datasets created as part of this work are released under CC-0
   (Creative Commons CC0 1.0 Universal, public domain dedication):
   https://creativecommons.org/publicdomain/zero/1.0/
-  Hugging Face card licence field at build time: {prov.get('hf_card_license')}
+  (The Hugging Face card has no separate licence field; the CC-0 statement is in its License section.)
   CC0 permits commercial use, modification and redistribution without conditions.
 
 WHAT BJNF TOOK AND WHAT IT CHANGED
@@ -182,7 +221,8 @@ WHAT BJNF TOOK AND WHAT IT CHANGED
     from the corpus is stored, published or shipped. (The corpus text was collected from public web pages;
     their wording may be owned by the original publishers, so BJNF keeps only words, which are facts.)
   * Unicode NFC normalisation; only words written fully in the {name} script were kept
-    (no digits, no punctuation, no mixed scripts); length 1-{MAX_WORD_LEN}; obvious repeated-letter noise removed.
+    (no digits, no punctuation, no mixed scripts); stray zero-width joiners removed; length 1-{MAX_WORD_LEN};
+    obvious repeated-letter noise removed; offensive words removed (tools/blocklist/{code}.txt).
   * Kept words seen at least {min_count} times; ranked most frequent first; the top {n_words:,} words published.
   * English words were lower-cased.
 
@@ -243,7 +283,18 @@ def build(code, top, version, max_gb, min_count, token):
     log(f"== {code} ({LANGS[code]['name']})")
     sources, prov = resolve_sources(code, token)
     counts, stats = count_words(code, sources, token, int(max_gb * 1e9))
-    ranked = [w for w, c in sorted(counts.items(), key=lambda x: (-x[1], x[0])) if c >= min_count and good_word(w)][:top]
+    bl = load_blocklist(code)
+    ranked, n_blocked = [], 0
+    for w, c in sorted(counts.items(), key=lambda x: (-x[1], x[0])):
+        if c < min_count or len(ranked) >= top:
+            break
+        if not good_word(w):
+            continue
+        if blocked(w, bl):
+            n_blocked += 1
+            continue
+        ranked.append(w)
+    stats["blocked_offensive"] = n_blocked
     if len(ranked) < MIN_PACK_WORDS:
         sys.exit(f"{code}: only {len(ranked)} words - something is wrong with the source, nothing written")
     blob = pack_bytes(ranked)
