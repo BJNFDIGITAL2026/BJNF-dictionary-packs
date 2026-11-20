@@ -27,6 +27,19 @@ WHAT BJNF TOOK AND WHAT IT CHANGED
   * Kept words seen at least 20 times; ranked most frequent first; the top 100,000 words published.
   * English words were lower-cased.
 
+VERIFICATION (tools/verify_words.py) - every word passed all of these checks
+  1. not offensive (tools/blocklist/te.txt)
+  2. valid letter sequence for the script (Unicode syllable rules)
+  3. no known corruption pattern (wrong ra-ottu order, legacy-font junk)
+  4. seen at least 20 times in IndicCorp v2
+  5. confirmed by a second, independent source: used on te.wikipedia.org at least twice,
+     or seen at least 2,000 times in IndicCorp. Wikipedia (https://dumps.wikimedia.org/tewiki/latest/tewiki-latest-pages-articles.xml.bz2) was used ONLY as a yes/no check;
+     no Wikipedia text or counts are published.
+  6. not a likely misspelling: a form differing by one vowel length (Hindi: or a missing anusvara)
+     is 20x more common in BOTH sources; expert-checked exceptions in tools/allowlist/te.txt
+  Candidates: 797,060  Passed: 220,548  Published: 100,000
+  Rejected words and reasons: review/te/rejected.tsv.gz
+
 ATTRIBUTION (courtesy - not required by CC0)
   Doddapaneni et al., "Towards Leaving No Indic Language Behind: Building Monolingual Corpora,
   Benchmark and Models for Indic Languages", ACL 2023.

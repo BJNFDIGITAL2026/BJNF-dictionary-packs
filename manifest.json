@@ -4,36 +4,25 @@
   "updated_at": "2026-11-20",
   "packs": [
     {
-      "code": "en",
-      "version": 1,
-      "path": "packs/en/1/en.txt.gz",
-      "sha256": "76a556a62d79397c486299f3c4b0268cb23a652144f5c3bf5437ae473fd4b97f",
-      "bytes": 198337,
-      "words": 50000,
-      "license_file": "licenses/en/SOURCES_AND_LICENCES.txt",
-      "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words and counts only",
-      "licence_review": "source licence verified CC0; native-speaker review pending"
-    },
-    {
       "code": "hi",
       "version": 1,
       "path": "packs/hi/1/hi.txt.gz",
-      "sha256": "60c0b2c1584aee233078de3cc9ff449c220f147a07c15aa81d131ffc42090e4f",
-      "bytes": 523637,
+      "sha256": "5d979cfef6fd92670e19206dc802c309afbdd1eb96d6a2e2577bc8bbb2f44619",
+      "bytes": 516706,
       "words": 100000,
       "license_file": "licenses/hi/SOURCES_AND_LICENCES.txt",
-      "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words and counts only",
+      "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words only; each word cross-checked (see licence file)",
       "licence_review": "source licence verified CC0; native-speaker review pending"
     },
     {
       "code": "te",
       "version": 1,
       "path": "packs/te/1/te.txt.gz",
-      "sha256": "a066e1868ac17e3e6223d1d4445dadafbade819d2cb9999fb78b1d58fe004c4e",
-      "bytes": 596478,
+      "sha256": "faf24b764f8c4cd9a924227a24df6746f0288ff3354f04a6f4ef0b8d7f2a4057",
+      "bytes": 591814,
       "words": 100000,
       "license_file": "licenses/te/SOURCES_AND_LICENCES.txt",
-      "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words and counts only",
+      "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words only; each word cross-checked (see licence file)",
       "licence_review": "source licence verified CC0; native-speaker review pending"
     }
   ]
