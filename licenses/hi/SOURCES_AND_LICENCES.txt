@@ -1,0 +1,37 @@
+BJNF AI Keyboard - Hindi word pack (hi) - sources and licences
+Generated: 2026-11-20
+
+SOURCE
+  Name:      IndicCorp v2 (AI4Bharat, IIT Madras)
+  Dataset:   https://huggingface.co/datasets/ai4bharat/IndicCorpV2
+  Project:   https://github.com/AI4Bharat/IndicBERT/tree/main#indiccorp-v2
+  Revision:  2d7285e6ce14fdb3fb2449c9f89427b9f582ac3f
+  Files read:
+    data/hi-1.txt
+    data/hi-2.txt
+    data/hi-3.txt
+  Bytes read: 5,000,000,180  Lines read: 13,292,907
+
+LICENCE
+  The dataset card states: all datasets created as part of this work are released under CC-0
+  (Creative Commons CC0 1.0 Universal, public domain dedication):
+  https://creativecommons.org/publicdomain/zero/1.0/
+  (The Hugging Face card has no separate licence field; the CC-0 statement is in its License section.)
+  CC0 permits commercial use, modification and redistribution without conditions.
+
+WHAT BJNF TOOK AND WHAT IT CHANGED
+  * Only single words and their occurrence counts were extracted. No sentence, phrase or document text
+    from the corpus is stored, published or shipped. (The corpus text was collected from public web pages;
+    their wording may be owned by the original publishers, so BJNF keeps only words, which are facts.)
+  * Unicode NFC normalisation; only words written fully in the Hindi script were kept
+    (no digits, no punctuation, no mixed scripts); stray zero-width joiners removed; length 1-40;
+    obvious repeated-letter noise removed; offensive words removed (tools/blocklist/hi.txt).
+  * Kept words seen at least 20 times; ranked most frequent first; the top 100,000 words published.
+  * English words were lower-cased.
+
+ATTRIBUTION (courtesy - not required by CC0)
+  Doddapaneni et al., "Towards Leaving No Indic Language Behind: Building Monolingual Corpora,
+  Benchmark and Models for Indic Languages", ACL 2023.
+
+STATUS
+  Source licence: verified (CC0).  Native-speaker review: see review/hi/ - pending until signed off.
