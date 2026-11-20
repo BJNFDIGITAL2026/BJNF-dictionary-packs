@@ -1,0 +1,56 @@
+name: Build word packs (IndicCorp v2, CC0, words only)
+
+# Runs on GitHub's servers because building needs internet. It reads the CC0 IndicCorp v2 corpus,
+# keeps only single words and their counts, and commits the packs back to the same branch.
+# Merge the branch into main only after a native speaker has checked review/<code>/.
+on:
+  workflow_dispatch:
+    inputs:
+      langs:
+        description: "Language codes, space separated"
+        default: "te hi en"
+      version:
+        description: "Pack version (raise it when a list changes)"
+        default: "1"
+  push:
+    branches: ["build/**"]
+    paths: ["tools/build_corpus_pack.py", ".github/workflows/build-packs.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-packs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      LANGS: ${{ github.event.inputs.langs || 'te hi en' }}
+      PACK_VERSION: ${{ github.event.inputs.version || '1' }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build packs
+        run: |
+          set -euo pipefail
+          for code in $LANGS; do
+            python tools/build_corpus_pack.py --lang "$code" --version "$PACK_VERSION" --top 100000 --top-en 50000 --max-gb 5 --min-count 20
+          done
+          python tools/build_corpus_pack.py --finalize
+          cat manifest.json
+      - name: Commit packs to this branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          git config user.name "bjnf-pack-builder"
+          git config user.email "actions@users.noreply.github.com"
+          git add manifest.json packs licenses review checksums
+          if git diff --cached --quiet; then echo "nothing changed"; exit 0; fi
+          git commit -m "Build word packs: $LANGS (v$PACK_VERSION) from IndicCorp v2 (CC0), words only"
+          git push
