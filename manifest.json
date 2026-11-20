@@ -1,6 +1,40 @@
 {
-  "schema_version": 1,
+  "schema": 1,
   "repository": "BJNFDIGITAL2026/BJNF-dictionary-packs",
-  "updated_at": null,
-  "packs": []
+  "updated_at": "2026-11-20",
+  "packs": [
+    {
+      "code": "en",
+      "version": 1,
+      "path": "packs/en/1/en.txt.gz",
+      "sha256": "9d3ca3551182601f15731d710ebc51663eeffbccbb2a7406affb25eb1ee0fbfc",
+      "bytes": 198320,
+      "words": 50000,
+      "license_file": "licenses/en/SOURCES_AND_LICENCES.txt",
+      "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words and counts only",
+      "licence_review": "source licence verified CC0; native-speaker review pending"
+    },
+    {
+      "code": "hi",
+      "version": 1,
+      "path": "packs/hi/1/hi.txt.gz",
+      "sha256": "a8f36797689edacf30e0141030cf68bdcc56e1385ac256d99dd2b593e4f61593",
+      "bytes": 526413,
+      "words": 100000,
+      "license_file": "licenses/hi/SOURCES_AND_LICENCES.txt",
+      "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words and counts only",
+      "licence_review": "source licence verified CC0; native-speaker review pending"
+    },
+    {
+      "code": "te",
+      "version": 1,
+      "path": "packs/te/1/te.txt.gz",
+      "sha256": "51e0be8dbc55ba475048938b163b98a58a1e1fac28f7abaa0d175e0e6c592c8e",
+      "bytes": 600208,
+      "words": 100000,
+      "license_file": "licenses/te/SOURCES_AND_LICENCES.txt",
+      "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words and counts only",
+      "licence_review": "source licence verified CC0; native-speaker review pending"
+    }
+  ]
 }
