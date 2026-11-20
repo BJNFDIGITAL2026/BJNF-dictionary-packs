@@ -1,0 +1,4 @@
+Package: wamerican-large
+Source: scowl
+Version: 2020.12.07-4build1
+Homepage: http://wordlist.sourceforge.net/
