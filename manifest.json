@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "repository": "BJNFDIGITAL2026/BJNF-dictionary-packs",
-  "updated_at": "2026-11-23",
+  "updated_at": "2026-11-24",
   "packs": [
     {
       "code": "hi",
@@ -38,13 +38,13 @@
     },
     {
       "code": "tex",
-      "version": 1,
-      "path": "packs/tex/1/tex.txt.gz",
-      "sha256": "724d57e38abfd87992f70ff1b7d2a3b7426d52938c13b908687e4e48db08a900",
-      "bytes": 18557,
-      "words": 3690,
+      "version": 2,
+      "path": "packs/tex/2/tex.txt.gz",
+      "sha256": "e45a49d05c3f6002c48b7b900272e357684bc033d5da426df78e266a1555ba2e",
+      "bytes": 20255,
+      "words": 4022,
       "license_file": "licenses/tex/SOURCES_AND_LICENCES.txt",
-      "source": "BJNF-written Telugu word list (everyday and dialect words, Tenglish, nature, districts, offices, companies, science and social terms, community names). No third-party dictionary text.",
+      "source": "BJNF-written Telugu word list (everyday and dialect words, Tenglish, nature, districts, offices, companies, science and social terms, community names, and Volume 1 of the India names collection: leaders, parties, rivers, mountains, forests, sanctuaries, wetlands, nature words). No third-party dictionary text.",
       "licence_review": "written by BJNF; names and plain words only"
     }
   ]
