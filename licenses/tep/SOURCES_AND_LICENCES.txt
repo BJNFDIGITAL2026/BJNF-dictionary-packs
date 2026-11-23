@@ -1,0 +1,10 @@
+BJNF AI Keyboard - Telugu add-on pack (tep) - sources and licences
+Generated: 2026-11-23
+
+CONTENT
+  Village and mandal names of Telangana and Andhra Pradesh from a village list supplied by the BJNF owner (LGD-based columns). Telugu names: authoritative or tool-transliterated.
+
+LICENCE STATUS
+  owner-supplied place-name list; publisher and licence of the original list still to be confirmed before wide release.
+  Words only, one per line. No definitions, sentences or text copied from any dictionary or book.
+  Native-speaker spelling review: pending (same sign-off process as review/te).
