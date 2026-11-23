@@ -1,5 +1,5 @@
 BJNF AI Keyboard - Telugu add-on pack (tex) - sources and licences
-Generated: 2026-11-23
+Generated: 2026-11-24 (v2)
 
 CONTENT
   BJNF-written Telugu word list (everyday and dialect words, Tenglish, nature, districts, offices, companies, science and social terms, community names). No third-party dictionary text.
@@ -8,3 +8,7 @@ LICENCE STATUS
   written by BJNF; names and plain words only.
   Words only, one per line. No definitions, sentences or text copied from any dictionary or book.
   Native-speaker spelling review: pending (same sign-off process as review/te).
+
+VERSION 2 ADDITION
+  332 words from BJNF Telugu Master Dictionary - India Names Collection, Volume 1 (owner-compiled list of public names: current chief ministers and leaders, political parties recognised by the Election Commission, rivers, mountains, forests, sanctuaries, wetlands and nature words; names and plain words only, no definitions or text from any book).
+  Facts and names only. Spelling review by a native reader: pending.
