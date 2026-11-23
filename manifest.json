@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "repository": "BJNFDIGITAL2026/BJNF-dictionary-packs",
-  "updated_at": "2026-11-20",
+  "updated_at": "2026-11-23",
   "packs": [
     {
       "code": "hi",
@@ -24,6 +24,28 @@
       "license_file": "licenses/te/SOURCES_AND_LICENCES.txt",
       "source": "IndicCorp v2 (AI4Bharat) - CC0-1.0 - words only; each word cross-checked (see licence file)",
       "licence_review": "source licence verified CC0; every word auto-checked and borderline words hand-reviewed; native sign-off sheet: review/te/expert_review.tsv"
+    },
+    {
+      "code": "tep",
+      "version": 1,
+      "path": "packs/tep/1/tep.txt.gz",
+      "sha256": "9d3257529c00986cca5fb34feb07e3917b4c280f912bf5d25aa5e9ece8fe42f2",
+      "bytes": 103644,
+      "words": 21189,
+      "license_file": "licenses/tep/SOURCES_AND_LICENCES.txt",
+      "source": "Village and mandal names of Telangana and Andhra Pradesh from a village list supplied by the BJNF owner (LGD-based columns). Telugu names: authoritative or tool-transliterated.",
+      "licence_review": "owner-supplied place-name list; publisher and licence of the original list still to be confirmed before wide release"
+    },
+    {
+      "code": "tex",
+      "version": 1,
+      "path": "packs/tex/1/tex.txt.gz",
+      "sha256": "724d57e38abfd87992f70ff1b7d2a3b7426d52938c13b908687e4e48db08a900",
+      "bytes": 18557,
+      "words": 3690,
+      "license_file": "licenses/tex/SOURCES_AND_LICENCES.txt",
+      "source": "BJNF-written Telugu word list (everyday and dialect words, Tenglish, nature, districts, offices, companies, science and social terms, community names). No third-party dictionary text.",
+      "licence_review": "written by BJNF; names and plain words only"
     }
   ]
 }
